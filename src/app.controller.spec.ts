@@ -12,7 +12,7 @@ describe('AppController', () => {
     }).compile();
   });
 
-  describe('root', () => {
+  describe('[API]', () => {
     it('should return "Hello World!"', () => {
       const appController = app.get<AppController>(AppController);
       expect(appController.getHello()).toBe('Hello World!');
