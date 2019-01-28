@@ -1,6 +1,7 @@
 import * as proxy from 'http-proxy-middleware';
 import * as http2 from 'http2';
 import * as express from 'express';
+import * as paginate from 'express-paginate';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
 import * as fs from 'fs';
@@ -21,6 +22,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, server, options);
   // Add compression
   app.use(compression());
+
+  // Add paginate middleware
+  app.use(paginate.middleware(10, 50));
 
   // Add helmet
   app.use(helmet());
