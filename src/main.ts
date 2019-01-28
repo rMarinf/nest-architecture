@@ -10,6 +10,15 @@ async function bootstrap() {
   const server = express();
   const app = await NestFactory.create(AppModule, server);
 
+  // Add compression
+  app.use(compression());
+
+  // Add helmet
+  app.use(helmet());
+
+  // Enable CORS
+  app.enableCors();
+
   // Add proxy
   app.use(
     ['/oam*', '/catalog/store/[0-9]+$'],
@@ -19,15 +28,6 @@ async function bootstrap() {
       pathRewrite: { '^/api': '' },
     }),
   );
-
-  // Add compression
-  app.use(compression());
-
-  // Add helmet
-  app.use(helmet());
-
-  // Enable CORS
-  app.enableCors();
 
   // Add validation pipe
   app.useGlobalPipes(
