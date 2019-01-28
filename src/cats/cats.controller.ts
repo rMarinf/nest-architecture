@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Body, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+} from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { CatEntity } from './interfaces/cat.model';
@@ -7,7 +14,6 @@ import { CatEntity } from './interfaces/cat.model';
 @UseInterceptors(ClassSerializerInterceptor)
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
-
 
   @Post()
   async create(@Body() createCatDto: CreateCatDto): Promise<CatEntity> {

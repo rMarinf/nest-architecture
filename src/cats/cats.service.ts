@@ -16,9 +16,9 @@ export class CatsService {
   }
 
   async findAll(): Promise<CatEntity[]> {
-    const results =  await this.catModel.find().exec();
+    const results = await this.catModel.find().exec();
     const cats = [];
-    results.forEach((cat) => {
+    results.forEach(cat => {
       cats.push(new CatEntity(cat.toObject()));
     });
 

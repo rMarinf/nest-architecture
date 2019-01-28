@@ -1,10 +1,11 @@
+import * as chai from 'chai';
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { CatSchema } from './schemas/cat.model';
 import { MongooseModule } from '@nestjs/mongoose';
-import * as chai from 'chai';
 import { CatEntity } from './interfaces/cat.model';
 
 const should = chai.should();
@@ -21,9 +22,7 @@ describe('CatController', () => {
         MongooseModule.forFeature([{ name: 'Cat', schema: CatSchema }]),
       ],
       controllers: [CatsController],
-      providers: [
-        CatsService,
-      ],
+      providers: [CatsService],
     }).compile();
     catService = app.get<CatsService>(CatsService);
   });
@@ -31,7 +30,7 @@ describe('CatController', () => {
   describe('[API]', () => {
     it('Create a Cat', async () => {
       const createCatDto: CreateCatDto = {
-        name : 'example',
+        name: 'example',
         age: 12,
         breed: 'example',
       };
