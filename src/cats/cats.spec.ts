@@ -5,11 +5,14 @@ import { CreateCatDto } from './dto/create-cat.dto';
 import { CatSchema } from './schemas/cat.model';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as chai from 'chai';
+import { CatEntity } from './interfaces/cat.model';
 
 const should = chai.should();
 
 describe('CatController', () => {
   let app: TestingModule;
+  let catService: CatsService;
+  let cat: CatEntity;
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
@@ -22,18 +25,24 @@ describe('CatController', () => {
         CatsService,
       ],
     }).compile();
+    catService = app.get<CatsService>(CatsService);
   });
 
   describe('[API]', () => {
     it('Create a Cat', async () => {
-      const catController = app.get<CatsService>(CatsService);
       const createCatDto: CreateCatDto = {
         name : 'example',
         age: 12,
         breed: 'example',
       };
-      const cat = await catController.create(createCatDto);
+      cat = await catService.create(createCatDto);
       cat.should.be.have.property('name', 'example');
+    });
+
+    it('Get all cats', async () => {
+      const cats = await catService.findAll();
+      cats.should.be.instanceOf(Array);
+      cats.should.be.deep.include(cat);
     });
   });
 });
