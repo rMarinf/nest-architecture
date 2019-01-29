@@ -7,6 +7,7 @@ import { PaginationInterface } from '../common/interfaces/general/pagination.int
 import { PaginationEntity } from '../common/entities/pagination.entity';
 import { CatEntity } from '../common/entities/cat.entity';
 import { SortInterface } from '../common/interfaces/general/sort.interface';
+import { UpdateCatDto } from './dtos/update-cat.dto';
 
 @Injectable()
 export class CatsService {
@@ -47,6 +48,13 @@ export class CatsService {
 
   async findOne(id: string): Promise<CatEntity> {
     const cat = await this.catModel.findById(id);
+    return new CatEntity(cat.toObject());
+  }
+
+  async update(id: string, updateCatDto: UpdateCatDto): Promise<CatEntity> {
+    const cat = await this.catModel.findById(id);
+    cat.set(updateCatDto);
+    await cat.save();
     return new CatEntity(cat.toObject());
   }
 }

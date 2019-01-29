@@ -9,6 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CatEntity } from '../common/entities/cat.entity';
 import { PaginationInterface } from '../common/interfaces/general/pagination.interface';
 import { SortInterface } from '../common/interfaces/general/sort.interface';
+import { UpdateCatDto } from './dtos/update-cat.dto';
 
 const should = chai.should();
 
@@ -58,5 +59,20 @@ describe('CatController', () => {
       const result = await catService.findOne(cat.hash);
       result.should.be.deep.equal(cat);
     });
+
+    it('Update a cat', async () => {
+      const updateCatDto: UpdateCatDto = {
+        name: 'name',
+        age: 13,
+        breed: 'name',
+      };
+
+      const updatedCat: CatEntity = await catService.update(cat.hash, updateCatDto);
+      updatedCat.should.be.have.property('name', updateCatDto.name);
+      updatedCat.should.be.have.property('age', updateCatDto.age);
+      updatedCat.should.be.have.property('breed', updateCatDto.breed);
+      cat = updatedCat;
+    });
+
   });
 });
