@@ -8,7 +8,6 @@ import { CatSchema } from './schemas/cat.model';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatEntity } from './interfaces/cat.model';
 import { PaginationInterface } from '../common/interfaces/pagination.interface';
-import { classToPlain } from 'class-transformer';
 import { SortInterface } from '../common/interfaces/sort.interface';
 
 const should = chai.should();
