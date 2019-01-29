@@ -67,7 +67,7 @@ describe('CatController', () => {
         breed: 'name',
       };
 
-      const updatedCat: CatEntity = await catService.update(cat.hash, updateCatDto);
+      const updatedCat: CatEntity = await catService.update(cat, updateCatDto);
       updatedCat.should.be.have.property('name', updateCatDto.name);
       updatedCat.should.be.have.property('age', updateCatDto.age);
       updatedCat.should.be.have.property('breed', updateCatDto.breed);

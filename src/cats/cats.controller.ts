@@ -46,8 +46,12 @@ export class CatsController {
   }
 
   @Patch(':cat')
-  update(@Param('cat') id, @Body() updateCatDto: UpdateCatDto) {
-    return `This action updates a #${id} cat`;
+  update(@Cat() cat: CatEntity, @Body() updateCatDto: UpdateCatDto) {
+    if (!cat) {
+      throw new BadRequestException();
+    }
+
+    return this.catsService.update(cat, updateCatDto);
   }
 
   @Delete(':cat')

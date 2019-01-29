@@ -70,7 +70,9 @@ describe('AppController (e2e)', () => {
       .send(updateCatDto)
       .expect(200)
       .then((res) => {
-        res.text.should.be.equal(`This action updates a #${cat.hash} cat`);
+        res.body.should.be.have.property('name', updateCatDto.name);
+        res.body.should.be.have.property('age', updateCatDto.age);
+        res.body.should.be.have.property('breed', updateCatDto.breed);
       });
   });
 

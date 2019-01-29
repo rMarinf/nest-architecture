@@ -51,8 +51,8 @@ export class CatsService {
     return new CatEntity(cat.toObject());
   }
 
-  async update(id: string, updateCatDto: UpdateCatDto): Promise<CatEntity> {
-    const cat = await this.catModel.findById(id);
+  async update(updatedCat: CatEntity, updateCatDto: UpdateCatDto): Promise<CatEntity> {
+    const cat = await this.catModel.findById(updatedCat.hash);
     cat.set(updateCatDto);
     await cat.save();
     return new CatEntity(cat.toObject());
