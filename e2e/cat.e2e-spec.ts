@@ -79,9 +79,6 @@ describe('AppController (e2e)', () => {
   it('/cats/:id (DELETE)', () => {
     return request(app.getHttpServer())
       .delete(`/cats/${cat.hash}`)
-      .expect(200)
-      .then((res) => {
-        res.text.should.be.equal(`This action removes a #${cat.hash} cat`);
-      });
+      .expect(204);
   });
 });

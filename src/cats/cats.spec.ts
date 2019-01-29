@@ -74,5 +74,9 @@ describe('CatController', () => {
       cat = updatedCat;
     });
 
+    it('Delete a cat', async () => {
+      const result = await catService.delete(cat);
+      result.should.be.equal(true);
+    });
   });
 });

@@ -57,4 +57,9 @@ export class CatsService {
     await cat.save();
     return new CatEntity(cat.toObject());
   }
+
+  async delete(cat: CatEntity): Promise<boolean> {
+    const deletedCat = await this.catModel.findByIdAndDelete(cat.hash);
+    return !!deletedCat;
+  }
 }

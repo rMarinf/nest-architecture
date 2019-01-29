@@ -8,7 +8,7 @@ import {
   Param,
   Patch,
   Delete,
-  BadRequestException,
+  BadRequestException, HttpCode,
 } from '@nestjs/common';
 import { CreateCatDto } from './dtos/create-cat.dto';
 import { CatsService } from './cats.service';
@@ -46,7 +46,7 @@ export class CatsController {
   }
 
   @Patch(':cat')
-  update(@Cat() cat: CatEntity, @Body() updateCatDto: UpdateCatDto) {
+  async update(@Cat() cat: CatEntity, @Body() updateCatDto: UpdateCatDto) {
     if (!cat) {
       throw new BadRequestException();
     }
@@ -55,7 +55,12 @@ export class CatsController {
   }
 
   @Delete(':cat')
-  remove(@Param('cat') id) {
-    return `This action removes a #${id} cat`;
+  @HttpCode(204)
+  async remove(@Cat() cat: CatEntity) {
+    if (!cat) {
+      throw new BadRequestException();
+    }
+
+    await this.catsService.delete(cat);
   }
 }
