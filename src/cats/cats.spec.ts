@@ -3,7 +3,7 @@ import * as chai from 'chai';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
-import { CreateCatDto } from './dto/create-cat.dto';
+import { CreateCatDto } from './dtos/create-cat.dto';
 import { CatSchema } from './models/cat.model';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatEntity } from '../common/entities/cat.entity';

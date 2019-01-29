@@ -4,8 +4,8 @@ import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { Cat } from '../src/common/interfaces/cat/cat.interface';
-import { CreateCatDto } from '../src/cats/dto/create-cat.dto';
-import { UpdateCatDto } from '../src/cats/dto/update-cat.dto';
+import { CreateCatDto } from '../src/cats/dtos/create-cat.dto';
+import { UpdateCatDto } from '../src/cats/dtos/update-cat.dto';
 
 const should = chai.should();
 
