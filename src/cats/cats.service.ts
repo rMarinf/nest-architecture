@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cat } from '../common/interfaces/cat/cat.interface';
 import { CreateCatDto } from './dtos/create-cat.dto';
@@ -47,11 +47,18 @@ export class CatsService {
   }
 
   async findOne(id: string): Promise<CatEntity> {
-    const cat = await this.catModel.findById(id);
-    return new CatEntity(cat.toObject());
+    try {
+      const cat = await this.catModel.findById(id);
+      return cat ? new CatEntity(cat.toObject()) : null;
+    } catch (e) {
+      throw new BadRequestException();
+    }
   }
 
-  async update(updatedCat: CatEntity, updateCatDto: UpdateCatDto): Promise<CatEntity> {
+  async update(
+    updatedCat: CatEntity,
+    updateCatDto: UpdateCatDto,
+  ): Promise<CatEntity> {
     const cat = await this.catModel.findById(updatedCat.hash);
     cat.set(updateCatDto);
     await cat.save();

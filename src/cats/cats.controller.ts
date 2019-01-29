@@ -8,7 +8,8 @@ import {
   Param,
   Patch,
   Delete,
-  BadRequestException, HttpCode,
+  BadRequestException,
+  HttpCode,
 } from '@nestjs/common';
 import { CreateCatDto } from './dtos/create-cat.dto';
 import { CatsService } from './cats.service';

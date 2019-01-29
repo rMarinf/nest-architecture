@@ -10,7 +10,6 @@ export class CatsMiddleware implements NestMiddleware {
       if (!req.models) {
         req.models = {};
       }
-
       // Find if exists this model
       req.models[model] = await this.catsService.findOne(req.params[model]);
       next();

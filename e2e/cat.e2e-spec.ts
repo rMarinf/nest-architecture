@@ -81,4 +81,10 @@ describe('AppController (e2e)', () => {
       .delete(`/cats/${cat.hash}`)
       .expect(204);
   });
+
+  it('/cats/:id (GET - NOT FOUND)', () => {
+    return request(app.getHttpServer())
+      .get(`/cats/blablabla`)
+      .expect(400);
+  });
 });
