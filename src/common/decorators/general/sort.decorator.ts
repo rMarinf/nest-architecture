@@ -1,5 +1,5 @@
 import { createParamDecorator } from '@nestjs/common';
-import { SortInterface } from '../interfaces/sort.interface';
+import { SortInterface } from '../../interfaces/general/sort.interface';
 
 export const Sort = createParamDecorator(
   (data, req): SortInterface => {

@@ -3,15 +3,15 @@ import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { Cat } from '../src/common/interfaces/cat.interface';
+import { Cat } from '../src/common/interfaces/cat/cat.interface';
 import { CreateCatDto } from '../src/cats/dto/create-cat.dto';
+import { UpdateCatDto } from '../src/cats/dto/update-cat.dto';
 
 const should = chai.should();
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
   let cat: Cat;
-  let createCatDto: CreateCatDto;
 
   beforeAll(async () => {
     const moduleFixture = await Test.createTestingModule({
@@ -20,21 +20,21 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+  });
 
-    createCatDto = {
+  it('/cats (POST)', () => {
+    const createCatDto: CreateCatDto = {
       name: 'example',
       age: 12,
       breed: 'example',
     };
-  });
 
-  it('/cats (POST)', () => {
     return request(app.getHttpServer())
       .post('/cats')
       .send(createCatDto)
       .expect(201)
       .then((res) => {
-        res.body.should.be.have.property('name', 'example');
+        res.body.should.be.have.property('name', createCatDto.name);
         cat = res.body;
       });
   });
@@ -46,6 +46,40 @@ describe('AppController (e2e)', () => {
       .then((res) => {
         res.body.data.should.be.instanceOf(Array);
         res.body.data.should.be.deep.include(cat);
+      });
+  });
+
+  it('/cats/:id (GET)', () => {
+    return request(app.getHttpServer())
+      .get(`/cats/${cat.hash}`)
+      .expect(200)
+      .then((res) => {
+        res.text.should.be.equal(`This action returns a #${cat.hash} cat`);
+      });
+  });
+
+  it('/cats/:id (PATCH)', () => {
+    const updateCatDto: UpdateCatDto = {
+      name: 'name',
+      age: 12,
+      breed: 'breed',
+    };
+
+    return request(app.getHttpServer())
+      .patch(`/cats/${cat.hash}`)
+      .send(updateCatDto)
+      .expect(200)
+      .then((res) => {
+        res.text.should.be.equal(`This action updates a #${cat.hash} cat`);
+      });
+  });
+
+  it('/cats/:id (DELETE)', () => {
+    return request(app.getHttpServer())
+      .delete(`/cats/${cat.hash}`)
+      .expect(200)
+      .then((res) => {
+        res.text.should.be.equal(`This action removes a #${cat.hash} cat`);
       });
   });
 });

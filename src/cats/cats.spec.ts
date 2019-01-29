@@ -7,8 +7,8 @@ import { CreateCatDto } from './dto/create-cat.dto';
 import { CatSchema } from './models/cat.model';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatEntity } from '../common/entities/cat.entity';
-import { PaginationInterface } from '../common/interfaces/pagination.interface';
-import { SortInterface } from '../common/interfaces/sort.interface';
+import { PaginationInterface } from '../common/interfaces/general/pagination.interface';
+import { SortInterface } from '../common/interfaces/general/sort.interface';
 
 const should = chai.should();
 

@@ -1,6 +1,7 @@
 import * as proxy from 'http-proxy-middleware';
 import * as http2 from 'http2';
 import * as express from 'express';
+import * as morgan from 'morgan';
 import * as paginate from 'express-paginate';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
@@ -20,6 +21,11 @@ async function bootstrap() {
   };
   const server = http2.createSecureServer(options.httpsOptions);
   const app = await NestFactory.create(AppModule, server, options);
+
+  // Add morgan
+  // TODO: Llevar a configuración
+  app.use(morgan('dev'));
+
   // Add compression
   app.use(compression());
 
