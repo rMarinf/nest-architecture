@@ -4,8 +4,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Cat } from './interfaces/cat.interface';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { PaginationInterface } from '../common/interfaces/pagination.interface';
-import { CatPaginationEntity } from '../common/interfaces/pagination-response.interface';
+import { PaginationEntity } from '../common/interfaces/pagination-response.interface';
 import { CatEntity } from './interfaces/cat.model';
+import { SortInterface } from '../common/interfaces/sort.interface';
 
 @Injectable()
 export class CatsService {
@@ -17,11 +18,16 @@ export class CatsService {
     return new CatEntity(createdCat.toObject());
   }
 
-  async findAll(pagination: PaginationInterface): Promise<CatPaginationEntity<CatEntity>> {
-    const [ results, itemCount ] = await Promise.all([
-      this.catModel.find({})
+  async findAll(
+    pagination: PaginationInterface,
+    sort: SortInterface,
+  ): Promise<PaginationEntity<CatEntity>> {
+    const [results, itemCount] = await Promise.all([
+      this.catModel
+        .find({})
         .limit(pagination.limit)
         .skip(pagination.skip)
+        .sort(sort)
         .exec(),
       this.catModel.count({}),
     ]);
@@ -32,10 +38,10 @@ export class CatsService {
       cats.push(new CatEntity(cat.toObject()));
     });
 
-    return {
+    return new PaginationEntity<CatEntity>({
       data: cats,
       count: itemCount,
       totalPages: pageCount,
-    };
+    });
   }
 }

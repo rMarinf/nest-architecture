@@ -7,6 +7,9 @@ import { CreateCatDto } from './dto/create-cat.dto';
 import { CatSchema } from './schemas/cat.model';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatEntity } from './interfaces/cat.model';
+import { PaginationInterface } from '../common/interfaces/pagination.interface';
+import { classToPlain } from 'class-transformer';
+import { SortInterface } from '../common/interfaces/sort.interface';
 
 const should = chai.should();
 
@@ -14,6 +17,14 @@ describe('CatController', () => {
   let app: TestingModule;
   let catService: CatsService;
   let cat: CatEntity;
+  const pagination: PaginationInterface = {
+    skip: 0,
+    page: 1,
+    limit: 10,
+  };
+  const sort: SortInterface = {
+    createdAt: -1,
+  };
 
   beforeAll(async () => {
     app = await Test.createTestingModule({
@@ -39,9 +50,9 @@ describe('CatController', () => {
     });
 
     it('Get all cats', async () => {
-      const cats = await catService.findAll();
-      cats.should.be.instanceOf(Array);
-      cats.should.be.deep.include(cat);
+      const cats = await catService.findAll(pagination, sort);
+      cats.data.should.be.instanceOf(Array);
+      cats.data.should.to.deep.include(cat);
     });
   });
 });

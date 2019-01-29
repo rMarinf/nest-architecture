@@ -10,7 +10,8 @@ import { CreateCatDto } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { CatEntity } from './interfaces/cat.model';
 import { Pagination } from '../common/decorators/pagination.decorator';
-import { CatPaginationEntity } from '../common/interfaces/pagination-response.interface';
+import { PaginationEntity } from '../common/interfaces/pagination-response.interface';
+import { Sort } from '../common/decorators/sort.decorator';
 
 @Controller('cats')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -23,7 +24,10 @@ export class CatsController {
   }
 
   @Get()
-  async findAll(@Pagination() pagination): Promise<CatPaginationEntity<CatEntity>> {
-    return this.catsService.findAll(pagination);
+  async findAll(
+    @Pagination() pagination,
+    @Sort() sort,
+  ): Promise<PaginationEntity<CatEntity>> {
+    return this.catsService.findAll(pagination, sort);
   }
 }
