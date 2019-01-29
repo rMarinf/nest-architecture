@@ -53,5 +53,10 @@ describe('CatController', () => {
       cats.data.should.be.instanceOf(Array);
       cats.data.should.to.deep.include(cat);
     });
+
+    it('Get a cat', async () => {
+      const result = await catService.findOne(cat.hash);
+      result.should.be.deep.equal(cat);
+    });
   });
 });

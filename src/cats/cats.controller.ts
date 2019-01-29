@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Delete,
+  BadRequestException,
 } from '@nestjs/common';
 import { CreateCatDto } from './dtos/create-cat.dto';
 import { CatsService } from './cats.service';
@@ -16,6 +17,7 @@ import { Pagination } from '../common/decorators/general/pagination.decorator';
 import { PaginationEntity } from '../common/entities/pagination.entity';
 import { Sort } from '../common/decorators/general/sort.decorator';
 import { UpdateCatDto } from './dtos/update-cat.dto';
+import { Cat } from '../common/decorators/cat/cat.decorator';
 
 @Controller('cats')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -36,8 +38,11 @@ export class CatsController {
   }
 
   @Get(':cat')
-  findOne(@Param('cat') id) {
-    return `This action returns a #${id} cat`;
+  findOne(@Cat() cat: CatEntity): CatEntity {
+    if (!cat) {
+      throw new BadRequestException();
+    }
+    return cat;
   }
 
   @Patch(':cat')

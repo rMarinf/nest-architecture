@@ -45,9 +45,7 @@ export class CatsService {
     });
   }
 
-  async findOne(
-    id: string,
-  ): Promise<CatEntity> {
+  async findOne(id: string): Promise<CatEntity> {
     const cat = await this.catModel.findById(id);
     return new CatEntity(cat.toObject());
   }

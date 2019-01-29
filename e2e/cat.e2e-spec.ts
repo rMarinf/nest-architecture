@@ -54,7 +54,7 @@ describe('AppController (e2e)', () => {
       .get(`/cats/${cat.hash}`)
       .expect(200)
       .then((res) => {
-        res.text.should.be.equal(`This action returns a #${cat.hash} cat`);
+        res.body.should.be.deep.equal(cat);
       });
   });
 
