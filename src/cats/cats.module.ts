@@ -2,7 +2,7 @@ import { CacheInterceptor, CacheModule, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
-import { CatSchema } from './schemas/cat.model';
+import { CatSchema } from './models/cat.model';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({

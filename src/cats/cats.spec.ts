@@ -4,9 +4,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
-import { CatSchema } from './schemas/cat.model';
+import { CatSchema } from './models/cat.model';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CatEntity } from './interfaces/cat.model';
+import { CatEntity } from '../common/entities/cat.entity';
 import { PaginationInterface } from '../common/interfaces/pagination.interface';
 import { SortInterface } from '../common/interfaces/sort.interface';
 

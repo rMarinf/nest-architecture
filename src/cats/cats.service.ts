@@ -1,11 +1,11 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Cat } from './interfaces/cat.interface';
+import { Cat } from '../common/interfaces/cat.interface';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { PaginationInterface } from '../common/interfaces/pagination.interface';
-import { PaginationEntity } from '../common/interfaces/pagination-response.interface';
-import { CatEntity } from './interfaces/cat.model';
+import { PaginationEntity } from '../common/entities/pagination.entity';
+import { CatEntity } from '../common/entities/cat.entity';
 import { SortInterface } from '../common/interfaces/sort.interface';
 
 @Injectable()

@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { Cat } from '../src/cats/interfaces/cat.interface';
+import { Cat } from '../src/common/interfaces/cat.interface';
 import { CreateCatDto } from '../src/cats/dto/create-cat.dto';
 
 const should = chai.should();
@@ -44,8 +44,8 @@ describe('AppController (e2e)', () => {
       .get('/cats')
       .expect(200)
       .then((res) => {
-        res.body.should.be.instanceOf(Array);
-        res.body.should.be.deep.include(cat);
+        res.body.data.should.be.instanceOf(Array);
+        res.body.data.should.be.deep.include(cat);
       });
   });
 });
