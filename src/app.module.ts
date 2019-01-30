@@ -3,10 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatsModule } from './cats/cats.module';
+import { ConfigModule } from './config/config.module';
+import { ConfigService } from './config/config.service';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/nest-architecture'),
+    ConfigModule,
+    MongooseModule.forRoot((new ConfigService(`${process.env.NODE_ENV}.env`)).get('MONGO_URL')),
     CatsModule,
   ],
   controllers: [AppController],
