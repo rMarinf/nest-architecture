@@ -25,7 +25,9 @@ async function bootstrap() {
 
   // Add morgan
   // TODO: Llevar a configuración
-  app.use(morgan((new ConfigService(`${process.env.NODE_ENV}.env`)).get('MORGAN')));
+  app.use(
+    morgan(new ConfigService(`${process.env.NODE_ENV}.env`).get('MORGAN')),
+  );
 
   // Add compression
   app.use(compression());

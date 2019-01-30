@@ -7,7 +7,9 @@ export class ConfigService {
   private readonly envConfig: EnvConfig;
 
   constructor(file: string) {
-    const config = dotenv.parse(fs.readFileSync(`${__dirname}/environments/${file}`));
+    const config = dotenv.parse(
+      fs.readFileSync(`${__dirname}/environments/${file}`),
+    );
     this.envConfig = this.validateInput(config);
   }
 
@@ -38,5 +40,4 @@ export class ConfigService {
     }
     return validatedEnvConfig;
   }
-
 }

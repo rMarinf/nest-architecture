@@ -4,7 +4,7 @@ import * as aqp from 'api-query-params';
 
 export const Sort = createParamDecorator(
   (data, req): SortInterface => {
-    let { sort }: { sort: SortInterface} = aqp(req.query);
+    let { sort }: { sort: SortInterface } = aqp(req.query);
 
     if (!sort) {
       sort = {

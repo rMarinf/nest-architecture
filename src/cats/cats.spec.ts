@@ -30,7 +30,9 @@ describe('CatController', () => {
   beforeAll(async () => {
     app = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot((new ConfigService(`${process.env.NODE_ENV}.env`)).get('MONGO_URL')),
+        MongooseModule.forRoot(
+          new ConfigService(`${process.env.NODE_ENV}.env`).get('MONGO_URL'),
+        ),
         MongooseModule.forFeature([{ name: 'Cat', schema: CatSchema }]),
       ],
       controllers: [CatsController],

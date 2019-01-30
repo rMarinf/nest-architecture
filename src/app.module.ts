@@ -9,7 +9,9 @@ import { ConfigService } from './config/config.service';
 @Module({
   imports: [
     ConfigModule,
-    MongooseModule.forRoot((new ConfigService(`${process.env.NODE_ENV}.env`)).get('MONGO_URL')),
+    MongooseModule.forRoot(
+      new ConfigService(`${process.env.NODE_ENV}.env`).get('MONGO_URL'),
+    ),
     CatsModule,
   ],
   controllers: [AppController],
