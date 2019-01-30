@@ -31,6 +31,7 @@ export class CatsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(CatsMiddleware)
+      .with('cat')
       .forRoutes(
         { path: '/cats/:cat', method: RequestMethod.GET },
         { path: '/cats/:cat', method: RequestMethod.PATCH },
