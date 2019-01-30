@@ -1,3 +1,3 @@
 export class SortInterface {
-  createdAt: number;
+  createdAt?: number;
 }
