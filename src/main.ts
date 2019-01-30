@@ -9,6 +9,7 @@ import * as fs from 'fs';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from './config/config.service';
 
 async function bootstrap() {
   const key = fs.readFileSync('localhost-privkey.pem');
@@ -24,7 +25,7 @@ async function bootstrap() {
 
   // Add morgan
   // TODO: Llevar a configuración
-  app.use(morgan('dev'));
+  app.use(morgan((new ConfigService(`${process.env.NODE_ENV}.env`)).get('MORGAN')));
 
   // Add compression
   app.use(compression());

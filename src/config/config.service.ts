@@ -26,6 +26,7 @@ export class ConfigService {
         .default('development'),
       PORT: Joi.number().default(3000),
       MONGO_URL: Joi.string().required(),
+      MORGAN: Joi.string().required(),
     });
 
     const { error, value: validatedEnvConfig } = Joi.validate(
