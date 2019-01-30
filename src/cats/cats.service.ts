@@ -46,9 +46,9 @@ export class CatsService {
     });
   }
 
-  async findOne(id: string): Promise<CatEntity> {
+  async findOne(hash: string): Promise<CatEntity> {
     try {
-      const cat = await this.catModel.findById(id);
+      const cat = await this.catModel.findOne({ hash });
       return cat ? new CatEntity(cat.toObject()) : null;
     } catch (e) {
       throw new BadRequestException();
@@ -59,14 +59,14 @@ export class CatsService {
     updatedCat: CatEntity,
     updateCatDto: UpdateCatDto,
   ): Promise<CatEntity> {
-    const cat = await this.catModel.findById(updatedCat.hash);
+    const cat = await this.catModel.findOne({ hash: updatedCat.hash });
     cat.set(updateCatDto);
     await cat.save();
     return new CatEntity(cat.toObject());
   }
 
   async delete(cat: CatEntity): Promise<boolean> {
-    const deletedCat = await this.catModel.findByIdAndDelete(cat.hash);
+    const deletedCat = await this.catModel.findOneAndDelete({ hash: cat.hash });
     return !!deletedCat;
   }
 }

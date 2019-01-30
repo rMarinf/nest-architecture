@@ -1,20 +1,16 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude } from 'class-transformer';
 
 export class CatEntity {
-  private name: string;
-  private age: number;
-  private breed: string;
+  name: string;
+  age: number;
+  breed: string;
+  hash: string;
 
   @Exclude()
-  private _id: string;
+  _id: string;
 
   @Exclude()
-  private __v: string;
-
-  @Expose()
-  get hash(): string {
-    return `${this._id}`;
-  }
+  __v: string;
 
   constructor(partial: Partial<CatEntity>) {
     Object.assign(this, partial);
