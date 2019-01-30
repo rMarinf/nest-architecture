@@ -10,6 +10,7 @@ import { CatEntity } from '../common/entities/cat.entity';
 import { PaginationInterface } from '../common/interfaces/general/pagination.interface';
 import { SortInterface } from '../common/interfaces/general/sort.interface';
 import { UpdateCatDto } from './dtos/update-cat.dto';
+import { ConfigService } from '../config/config.service';
 
 const should = chai.should();
 
@@ -29,7 +30,7 @@ describe('CatController', () => {
   beforeAll(async () => {
     app = await Test.createTestingModule({
       imports: [
-        MongooseModule.forRoot('mongodb://localhost:27017/nest-architecture'),
+        MongooseModule.forRoot((new ConfigService(`${process.env.NODE_ENV}.env`)).get('MONGO_URL')),
         MongooseModule.forFeature([{ name: 'Cat', schema: CatSchema }]),
       ],
       controllers: [CatsController],
