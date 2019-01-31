@@ -19,6 +19,7 @@ export class CatsService {
     return new CatEntity(createdCat.toObject());
   }
 
+  // TODO : Añadir query filter
   async findAll(
     pagination: PaginationInterface,
     sort: SortInterface,
@@ -29,6 +30,7 @@ export class CatsService {
         .limit(pagination.limit)
         .skip(pagination.skip)
         .sort(sort)
+        .lean()
         .exec(),
       this.catModel.count({}),
     ]);
@@ -36,7 +38,7 @@ export class CatsService {
     const pageCount = Math.ceil(itemCount / pagination.limit);
     const cats: CatEntity[] = [];
     results.forEach(cat => {
-      cats.push(new CatEntity(cat.toObject()));
+      cats.push(new CatEntity(cat));
     });
 
     return new PaginationEntity<CatEntity>({
@@ -48,8 +50,8 @@ export class CatsService {
 
   async findOne(hash: string): Promise<CatEntity> {
     try {
-      const cat = await this.catModel.findOne({ hash });
-      return cat ? new CatEntity(cat.toObject()) : null;
+      const cat = await this.catModel.findOne({ hash }).lean();
+      return cat ? new CatEntity(cat) : null;
     } catch (e) {
       throw new BadRequestException();
     }
