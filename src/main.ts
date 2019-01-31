@@ -42,16 +42,6 @@ async function bootstrap() {
   // Enable CORS
   app.enableCors();
 
-  // Add proxy
-  app.use(
-    ['/oam*', '/catalog/store/[0-9]+$'],
-    proxy({
-      target: 'https://www.bershka.com/itxrest/2',
-      changeOrigin: true,
-      pathRewrite: { '^/api': '' },
-    }),
-  );
-
   // Add validation pipe
   app.useGlobalPipes(
     new ValidationPipe({
