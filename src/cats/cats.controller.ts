@@ -9,7 +9,7 @@ import {
   Patch,
   Delete,
   BadRequestException,
-  HttpCode,
+  HttpCode, Query,
 } from '@nestjs/common';
 import { CreateCatDto } from './dtos/create-cat.dto';
 import { CatsService } from './cats.service';
@@ -19,6 +19,7 @@ import { PaginationEntity } from '../common/entities/pagination.entity';
 import { Sort } from '../common/decorators/general/sort.decorator';
 import { UpdateCatDto } from './dtos/update-cat.dto';
 import { Cat } from '../common/decorators/cat/cat.decorator';
+import { CatQueryDto } from './dtos/cat.query.dto';
 
 @Controller('cats')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -32,10 +33,11 @@ export class CatsController {
 
   @Get()
   async findAll(
+    @Query() queryDto: CatQueryDto,
     @Pagination() pagination,
     @Sort() sort,
   ): Promise<PaginationEntity<CatEntity>> {
-    return this.catsService.findAll(pagination, sort);
+    return this.catsService.findAll(queryDto, pagination, sort);
   }
 
   @Get(':cat')

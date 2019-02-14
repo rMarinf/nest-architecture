@@ -8,6 +8,8 @@ import { PaginationEntity } from '../common/entities/pagination.entity';
 import { CatEntity } from '../common/entities/cat.entity';
 import { SortInterface } from '../common/interfaces/general/sort.interface';
 import { UpdateCatDto } from './dtos/update-cat.dto';
+import { CatQueryDto } from './dtos/cat.query.dto';
+import { CatQueryInterface } from '../common/interfaces/cat/cat.query.interface';
 
 @Injectable()
 export class CatsService {
@@ -19,20 +21,21 @@ export class CatsService {
     return new CatEntity(createdCat.toObject());
   }
 
-  // TODO : Añadir query filter
   async findAll(
+    query: CatQueryDto,
     pagination: PaginationInterface,
     sort: SortInterface,
   ): Promise<PaginationEntity<CatEntity>> {
+    const parsedQuery = this.parseQuery(query);
     const [results, itemCount] = await Promise.all([
       this.catModel
-        .find({})
+        .find(parsedQuery)
         .limit(pagination.limit)
         .skip(pagination.skip)
         .sort(sort)
         .lean()
         .exec(),
-      this.catModel.count({}),
+      this.catModel.count(parsedQuery),
     ]);
 
     const pageCount = Math.ceil(itemCount / pagination.limit);
@@ -70,5 +73,19 @@ export class CatsService {
   async delete(cat: CatEntity): Promise<boolean> {
     const deletedCat = await this.catModel.findOneAndDelete({ hash: cat.hash });
     return !!deletedCat;
+  }
+
+  private parseQuery(query: CatQueryDto) {
+    const parsedQuery: CatQueryInterface = {};
+
+    if (query.name) {
+      parsedQuery.name = {$regex: query.name, $options: '$i'};
+    }
+
+    if (query.breed) {
+      parsedQuery.breed = {$regex: query.breed, $options: '$i'};
+    }
+
+    return parsedQuery;
   }
 }
